@@ -1,0 +1,13 @@
+###Creates a new emplyee entity
+POST http://localhost:4000/employees
+Content-Type: application/json
+
+{
+  "name": "Bruno Teixeira",
+  "email": "bruno.teixeira@example.com",
+  "address": "Porto, valongo 123",
+  "dateOfBirth": "2000-04-16",
+  "registeredDate": "2025-03-19"
+}
+
+###

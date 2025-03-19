@@ -1,12 +1,11 @@
 package com.em.employeeservice.controller;
 
+import com.em.employeeservice.dto.EmployeeRequestDTO;
 import com.em.employeeservice.dto.EmployeeResponseDTO;
 import com.em.employeeservice.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +19,15 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EmployeeResponseDTO>> getEmployees(){
+    public ResponseEntity<List<EmployeeResponseDTO>> getEmployees() {
         List<EmployeeResponseDTO> employees = employeeService.getEmployees();
         return ResponseEntity.ok().body(employees);
+    }
+
+    @PostMapping
+    public ResponseEntity<EmployeeResponseDTO> createEmployee(
+            @Valid @RequestBody EmployeeRequestDTO employeeRequestDTO) {
+        EmployeeResponseDTO employeeResponseDTO = employeeService.createEmployee(employeeRequestDTO);
+        return ResponseEntity.ok().body(employeeResponseDTO);
     }
 }
