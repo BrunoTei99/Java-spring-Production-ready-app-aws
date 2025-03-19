@@ -1,0 +1,3 @@
+###Get request to get all employees
+GET http://localhost:4000/employees
+###
