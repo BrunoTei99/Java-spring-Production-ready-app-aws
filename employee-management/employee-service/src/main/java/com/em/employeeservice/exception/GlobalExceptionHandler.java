@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +28,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<Map<String, String>> handleEmailAlreadyExistsExcption(EmailAlreadyExistsException ex) {
 
-        log.warn("Email address already exist{}", ex.getMessage());
+        log.warn("Email address already exist {}", ex.getMessage());
         Map<String, String> errors = new HashMap<>();
         errors.put("message", "Email address already exists");
+        return  ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleEmployeeNotFoundException(EmployeeNotFoundException ex) {
+        log.warn("Employee not found {}", ex.getMessage());
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Employee not found {}");
         return  ResponseEntity.badRequest().body(errors);
 
     }

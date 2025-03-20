@@ -1,0 +1,13 @@
+###Updates an existing emplyee entity
+PUT http://localhost:4000/employees/223e4567-e89b-12d3-a456-426614174008
+Content-Type: application/json
+
+{
+
+
+  "email": "laura.white@example.com",
+  "address": "g",
+  "dateOfBirth": "1989-09-02"
+
+}
+###

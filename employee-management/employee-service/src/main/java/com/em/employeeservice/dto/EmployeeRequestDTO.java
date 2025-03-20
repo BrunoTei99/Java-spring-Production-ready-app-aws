@@ -1,5 +1,6 @@
 package com.em.employeeservice.dto;
 
+import com.em.employeeservice.dto.validators.CreateEmployeeValidationGroup;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -20,7 +21,7 @@ public class EmployeeRequestDTO {
     @NotBlank(message = "Date of birth is required")
     private String dateOfBirth;
 
-    @NotBlank(message = "Registered date is required")
+    @NotBlank(groups = CreateEmployeeValidationGroup.class, message = "Registered date is required")
     private String registeredDate;
     public String getName() {
         return name;
