@@ -40,39 +40,27 @@ public class EmployeeService {
 
     public EmployeeResponseDTO updateEmployee(UUID id, EmployeeRequestDTO employeeRequestDTO){
 
-        // Fetch the employee from the repository by ID, or throw an exception if not found
-        Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with ID: " + id));
 
-        // Check if an employee with the new email already exists, excluding the current employee
-        if (employeeRequestDTO.getEmail() != null &&
-                !employeeRequestDTO.getEmail().equals(employee.getEmail()) &&
-                employeeRepository.existsByEmailAndIdNot(employeeRequestDTO.getEmail(), id)) {
-            throw new EmailAlreadyExistsException("An employee with this email already exists: " + employeeRequestDTO.getEmail());
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found with ID" +  id));
+
+        if (employeeRepository.existsByEmailAndIdNot(employeeRequestDTO.getEmail(), id)) {
+            throw new EmailAlreadyExistsException("A Employee with this email" + "already exists" + employeeRequestDTO.getEmail());
         }
 
-        // Only update the fields that are not null or empty in the request DTO
-        if (employeeRequestDTO.getName() != null && !employeeRequestDTO.getName().isEmpty()) {
-            employee.setName(employeeRequestDTO.getName());
-        }
+        employee.setName(employeeRequestDTO.getName());
+        employee.setAddress(employeeRequestDTO.getAddress());
+        employee.setEmail(employeeRequestDTO.getEmail());
+        employee.setDateOfBirth(LocalDate.parse(employeeRequestDTO.getDateOfBirth()));
 
-        if (employeeRequestDTO.getAddress() != null && !employeeRequestDTO.getAddress().isEmpty()) {
-            employee.setAddress(employeeRequestDTO.getAddress());
-        }
-
-        if (employeeRequestDTO.getEmail() != null && !employeeRequestDTO.getEmail().isEmpty()) {
-            employee.setEmail(employeeRequestDTO.getEmail());
-        }
-
-        if (employeeRequestDTO.getDateOfBirth() != null && !employeeRequestDTO.getDateOfBirth().isEmpty()) {
-            employee.setDateOfBirth(LocalDate.parse(employeeRequestDTO.getDateOfBirth()));
-        }
-
-        // Save the updated employee
         Employee updatedEmployee = employeeRepository.save(employee);
 
-        // Return the response DTO
         return EmployeeMapper.toDto(updatedEmployee);
+
     }
+
+    public void deleteEmployee(UUID id){
+        employeeRepository.deleteById(id);
+    }
+
 
 }
